@@ -14,10 +14,9 @@ from langdetect import detect
 # ---------------------------------------------
 # Local dependencies
 # ---------------------------------------------
-from config import cities_list
-from preprocess__sentences_splitter import sentence_splitter
-from utils import fix_encoding_of_string
-from config import html_parser
+from preprocessing.sentences_splitter import sentence_splitter
+from preprocessing.utils import fix_encoding_of_string
+from preprocessing.config import cities_list, html_parser
 # ---------------------------------------------
 
 
