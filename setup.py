@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# ---------------------------------------------
+# System modules
+# ---------------------------------------------
 import os
 import sys
-
 from setuptools import find_packages, setup
 
 
@@ -14,6 +16,10 @@ EMAIL = 'danielsalfran@gmail.com'
 AUTHOR = 'Daniel Salfran'
 LICENSE = 'GPL-3'
 
+
+# datadir = os.path.join('data')
+# datafiles = [(d, [os.path.join(d,f) for f in files])
+#     for d, folders, files in os.walk(datadir)]
 
 setup(
     name=NAME,
@@ -38,5 +44,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
+    # data_files=datafiles
+    package_data={'preprocessing': ['cities_large.txt']}
 )
 

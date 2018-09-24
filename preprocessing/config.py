@@ -28,7 +28,7 @@ path_project = os.path.dirname(os.path.abspath(__file__))
 # General Data
 # ---------------------------------------------
 # Cities file
-cities_list = path_project + "/data/cities_large.txt"
+cities_list = path_project + "/cities_large.txt"
 
 # ------------------------------
 # BeautifulSoup
