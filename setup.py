@@ -16,10 +16,9 @@ EMAIL = 'danielsalfran@gmail.com'
 AUTHOR = 'Daniel Salfran'
 LICENSE = 'GPL-3'
 
-
-# datadir = os.path.join('data')
-# datafiles = [(d, [os.path.join(d,f) for f in files])
-#     for d, folders, files in os.walk(datadir)]
+required = [
+    'langdetect>=1.0.7','bs4==0.0.1','nltk==3.3'
+]
 
 setup(
     name=NAME,
@@ -29,6 +28,7 @@ setup(
     author_email=EMAIL,
     url=URL,
     packages=find_packages(exclude=('tests',)),
+    install_requires=required,
     include_package_data=True,
     license=LICENSE,
     classifiers=[
