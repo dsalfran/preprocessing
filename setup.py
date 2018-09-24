@@ -17,7 +17,7 @@ LICENSE = 'GPL-3'
 
 setup(
     name=NAME,
-    version='1.0.8',
+    version='0.1',
     description=DESCRIPTION,
     author=AUTHOR,
     author_email=EMAIL,
