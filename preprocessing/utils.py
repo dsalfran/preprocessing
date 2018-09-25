@@ -85,3 +85,11 @@ def replace_dates(string):
 
     return(string)
 
+
+def clean_messy_paragraph(paragraph):
+    """Remove multiple spaces and line breaks from paragraphs. This is useful when dealing with text from html documents"""
+
+    paragraph = re.sub(r'\n', ' ', paragraph)
+    paragraph = re.sub(r'\s+', ' ', paragraph)
+
+    return(paragraph)

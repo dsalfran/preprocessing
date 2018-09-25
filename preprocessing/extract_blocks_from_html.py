@@ -12,35 +12,45 @@ import bs4
 # Local dependencies
 # -------------------------------------------------------------------
 from preprocessing.parse_html_tree import parse_html_tree, peskier_tags
-from preprocessing.utils import fix_encoding_of_string, replace_dates
-from preprocessing.text_manipulation import messy_paragrah_to_sentences
+from preprocessing.utils import fix_encoding_of_string, replace_dates, clean_messy_paragraph
+from preprocessing.sentences_splitter import sentence_splitter
 # -------------------------------------------------------------------
 
 
-def extract_flattened_uls(tree, simplified_blocks=None):
+def extract_uls(tree, simplified_blocks=None):
     if simplified_blocks is None:
         simplified_blocks = []
 
     missing_id = 0
-
     for ul in tree.find_all('ul'):
         if ul.get('id') is None:
             ul['id'] = ul_id = 'ul-{}'.format(missing_id)
             missing_id += 1
 
-        li_id = 0
+        items = []
         for li in ul.find_all('li'):
             li_string = li.text
             li_string = li_string.strip()
-            if li.get('id') is None:
-                _id = 'li-{}'.format(li_id)
-                li_id += 1
-            simplified_blocks.append({'text': li_string, "meta": {"ul": ul_id, "li": _id}})
+            items.append(li_string)
+
+        simplified_blocks.append({ul_id: items})
 
     return simplified_blocks
 
 
-def extract_flattened_paragraphs(tree, simplified_blocks=None):
+
+def flatten_ul_blocks(simplified_blocks):
+    flatten_blocks = []
+
+    for item in simplified_blocks:
+        for key, value in item.items():
+            for text in value:
+                flatten_blocks.append({'meta': {'ul': key}, 'text': text})
+
+    return flatten_blocks
+
+
+def extract_paragraphs(tree, simplified_blocks=None):
     if simplified_blocks is None:
         simplified_blocks = []
 
@@ -70,19 +80,29 @@ def extract_flattened_paragraphs(tree, simplified_blocks=None):
     for item in paragraphs:
         par_id = 'par-{}'.format(missing_id)
         missing_id += 1
-        sentences = messy_paragrah_to_sentences(item)
-        li_id = 0
-        for sentence in sentences:
-            _id = "li-{}".format(li_id)
-            li_id += 1
-            simplified_blocks.append({'text': sentence, "meta": {"ul": par_id, "li": _id}})
+        simplified_blocks.append({'meta': {'ul': par_id}, 'text': clean_messy_paragraph(item)})
 
-    return(simplified_blocks)
+    return simplified_blocks
+
+
+def flatten_paragraphs(simplified_blocks, flatten_paragraphs=None):
+    if flatten_paragraphs is None:
+        flatten_paragraphs = []
+
+    for item in simplified_blocks:
+        meta = item.get('meta')
+        sentences = sentence_splitter.tokenize(item.get('text'))
+        for sentence in sentences:
+            flatten_paragraphs.append({'meta': meta, 'text': sentence})
+
+    return(flatten_paragraphs)
 
 
 def extract_flattened_blocks(html):
     tree = parse_html_tree(html)
-    simplified_blocks = extract_flattened_uls(tree)
-    tree = parse_html_tree(html, pesky_tags=peskier_tags, token_replacement=True, tags_replacement=True)
-    simplified_blocks = extract_flattened_paragraphs(tree, simplified_blocks)
-    return simplified_blocks
+    blocks = flatten_ul_blocks(extract_uls(tree))
+    tree = parse_html_tree(html, pesky_tags=peskier_tags, token_replacement=True,
+                           tags_replacement=True)
+    blocks = flatten_paragraphs(extract_paragraphs(tree), blocks)
+
+    return blocks
