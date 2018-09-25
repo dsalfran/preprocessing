@@ -39,7 +39,6 @@ def parse_html_tree(html, selector="body", pesky_tags=pesky_tags, token_replacem
     """This function removes some unnecesary html tags from the html object. The
 tags removed are specified in the global variable "pesky_tags"
     """
-    html = fix_encoding_of_string(html)
     # some methods work better if dates and URLs are removed
     if token_replacement:
         html = replace_dates(html)
