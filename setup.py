@@ -17,7 +17,7 @@ AUTHOR = 'Daniel Salfran'
 LICENSE = 'GPL-3'
 
 required = [
-    'langdetect>=1.0.7','bs4==0.0.1','nltk==3.3'
+    'langdetect>=1.0.7','bs4>=0.0.1','nltk>=3.3', 'lxml>=4.2.5'
 ]
 
 setup(
