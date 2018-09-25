@@ -81,7 +81,7 @@ def extract_flattened_paragraphs(tree, simplified_blocks=None):
 
 
 def extract_flattened_blocks(html):
-    tree = parse_html_tree(tree)
+    tree = parse_html_tree(html)
     simplified_blocks = extract_flattened_uls(tree)
     tree = parse_html_tree(html, pesky_tags=peskier_tags, token_replacement=True, tags_replacement=True)
     simplified_blocks = extract_flattened_paragraphs(tree, simplified_blocks)
