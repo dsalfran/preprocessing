@@ -12,7 +12,7 @@ import bs4
 # -------------------------------------------------------------------
 # Local dependencies
 # -------------------------------------------------------------------
-from utils import fix_encoding_of_string, replace_dates
+from preprocessing.utils import fix_encoding_of_string, replace_dates
 # -------------------------------------------------------------------
 
 

@@ -11,9 +11,9 @@ import bs4
 # -------------------------------------------------------------------
 # Local dependencies
 # -------------------------------------------------------------------
-from parse_html_tree import parse_html_tree, peskier_tags
-from utils import fix_encoding_of_string, replace_dates
-from text_manipulation import messy_paragrah_to_sentences
+from preprocessing.parse_html_tree import parse_html_tree, peskier_tags
+from preprocessing.utils import fix_encoding_of_string, replace_dates
+from preprocessing.text_manipulation import messy_paragrah_to_sentences
 # -------------------------------------------------------------------
 
 

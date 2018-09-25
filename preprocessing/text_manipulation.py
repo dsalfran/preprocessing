@@ -12,7 +12,7 @@ import logging
 # ---------------------------------------------
 # Local dependencies
 # ---------------------------------------------
-from sentences_splitter import sentence_splitter
+from preprocessing.sentences_splitter import sentence_splitter
 # ---------------------------------------------
 
 
