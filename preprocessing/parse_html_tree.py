@@ -35,10 +35,11 @@ peskier_tags = ['script', 'style', 'form', 'link', 'img', 'iframe', 'head',
 invalid_tags = ['b', 'i', 'u', 'a', 'font', 'strong', 'center', 'span']
 
 
-def parse_html_tree(html, selector="body", pesky_tags=pesky_tags, token_replacement=False, tags_replacement=False):
+def parse_html_tree(html, selector="body", pesky_tags=pesky_tags, token_replacement=False, tags_replacement=False, remove_hidden=True):
     """This function removes some unnecesary html tags from the html object. The
 tags removed are specified in the global variable "pesky_tags"
     """
+
     # some methods work better if dates and URLs are removed
     if token_replacement:
         html = replace_dates(html)
@@ -46,6 +47,12 @@ tags removed are specified in the global variable "pesky_tags"
 
     # Get the document body
     soup = bs4.BeautifulSoup(html, 'lxml').select(selector)
+
+
+    # remove nodes which were hidden on the frontend
+    if remove_hidden:
+        for hidden in soup.body.find_all(style=re.compile(r'display:\s*none')):
+            hidden.decompose()
 
     if not soup:
         # Just return a fake empty body (Null Object pattern)
