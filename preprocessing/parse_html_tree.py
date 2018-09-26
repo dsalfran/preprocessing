@@ -48,17 +48,16 @@ tags removed are specified in the global variable "pesky_tags"
     # Get the document body
     soup = bs4.BeautifulSoup(html, 'lxml').select(selector)
 
-
-    # remove nodes which were hidden on the frontend
-    if remove_hidden:
-        for hidden in soup.find_all(style=re.compile(r'display:\s*none')):
-            hidden.decompose()
-
     if not soup:
         # Just return a fake empty body (Null Object pattern)
         return bs4.BeautifulSoup("<body></body>", 'lxml')
 
     soup = soup[0]
+
+    # remove nodes which were hidden on the frontend
+    if remove_hidden:
+        for hidden in soup.find_all(style=re.compile(r'display:\s*none')):
+            hidden.decompose()
 
     # Remove pesky tags
     for tag in pesky_tags:
