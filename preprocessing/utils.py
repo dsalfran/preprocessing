@@ -5,6 +5,7 @@
 # System modules
 # ---------------------------------------------
 import re
+import hashlib
 import logging
 # ---------------------------------------------
 # External dependencies
@@ -93,3 +94,13 @@ def clean_messy_paragraph(paragraph):
     paragraph = re.sub(r'\s+', ' ', paragraph)
 
     return(paragraph)
+
+
+def computeMD5hash(string):
+    """Function to compute hash of strings. Useful to find equal sentences
+
+    """
+    m = hashlib.md5()
+    m.update(string.encode('utf-8'))
+    return m.hexdigest()
+
