@@ -51,7 +51,7 @@ tags removed are specified in the global variable "pesky_tags"
 
     # remove nodes which were hidden on the frontend
     if remove_hidden:
-        for hidden in soup.body.find_all(style=re.compile(r'display:\s*none')):
+        for hidden in soup.find_all(style=re.compile(r'display:\s*none')):
             hidden.decompose()
 
     if not soup:
