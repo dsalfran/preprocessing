@@ -104,3 +104,25 @@ def computeMD5hash(string):
     m.update(string.encode('utf-8'))
     return m.hexdigest()
 
+
+def yesbool(str):
+    """
+    This method parses a string with value `yes` or `no` and
+    returns a corresponding `bool` value of `True` or `False`.
+    Useful for parsing HTTP query args to allow the pretty use `&arg=yes`.
+
+    >>> yesbool('yes')
+    True
+    >>> yesbool('no')
+    False
+    >>> try:
+    ...     yesbool('maybe')
+    ...     print("Haha, passed")
+    ... except ValueError:
+    ...     print("Didn't passed")
+    Didn't passed
+    """
+    if str not in ['yes', 'no']:
+        raise ValueError("'%s' is not a valid value. Should be either 'yes' or 'no'.")
+
+    return str == 'yes'
