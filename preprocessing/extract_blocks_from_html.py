@@ -39,13 +39,16 @@ def extract_uls(tree, simplified_blocks=None):
 
 
 
-def flatten_ul_blocks(simplified_blocks):
+def flatten_ul_blocks(simplified_blocks, drop_empty=False):
     flatten_blocks = []
 
     for item in simplified_blocks:
         for key, value in item.items():
             for text in value:
-                flatten_blocks.append({'meta': {'ul': key}, 'text': text})
+                if drop_empty and text.strip() == '':
+                    continue
+                else:
+                    flatten_blocks.append({'meta': {'ul': key}, 'text': text})
 
     return flatten_blocks
 
@@ -78,14 +81,14 @@ def extract_paragraphs(tree, simplified_blocks=None):
             div.decompose()
 
     for item in paragraphs:
-        par_id = 'par-{}'.format(missing_id)
         missing_id += 1
+        par_id = 'par-{}'.format(missing_id)
         simplified_blocks.append({'meta': {'ul': par_id}, 'text': clean_messy_paragraph(item)})
 
     return simplified_blocks
 
 
-def flatten_paragraphs(simplified_blocks, flatten_paragraphs=None):
+def flatten_paragraphs(simplified_blocks, flatten_paragraphs=None, drop_empty=False):
     if flatten_paragraphs is None:
         flatten_paragraphs = []
 
@@ -93,16 +96,19 @@ def flatten_paragraphs(simplified_blocks, flatten_paragraphs=None):
         meta = item.get('meta')
         sentences = sentence_splitter.tokenize(item.get('text'))
         for sentence in sentences:
-            flatten_paragraphs.append({'meta': meta, 'text': sentence})
+            if drop_empty and sentence.strip() == '':
+                continue
+            else:
+                flatten_paragraphs.append({'meta': meta, 'text': sentence})
 
     return(flatten_paragraphs)
 
 
-def extract_flattened_blocks(html):
+def extract_flattened_blocks(html, drop_empty=False):
     tree = parse_html_tree(html)
-    blocks = flatten_ul_blocks(extract_uls(tree))
+    blocks = flatten_ul_blocks(extract_uls(tree), drop_empty)
     tree = parse_html_tree(html, pesky_tags=peskier_tags, token_replacement=True,
                            tags_replacement=True)
-    blocks = flatten_paragraphs(extract_paragraphs(tree), blocks)
+    blocks = flatten_paragraphs(extract_paragraphs(tree), blocks, drop_empty)
 
     return blocks
