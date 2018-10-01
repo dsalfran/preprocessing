@@ -96,6 +96,22 @@ def clean_messy_paragraph(paragraph):
     return(paragraph)
 
 
+def clean_line(line):
+    """This function strips line breaks, tabs, and multiple and trailing blank spaces
+
+    Input:
+    line: string of text
+
+    Returns: Clean line
+
+    """
+
+    line = re.sub(r'\n', ' ', line)
+    line = re.sub(r'\t', ' ', line)
+    line = re.sub(r'\s+', ' ', line)
+    return line.strip()
+
+
 def computeMD5hash(string):
     """Function to compute hash of strings. Useful to find equal sentences
 
