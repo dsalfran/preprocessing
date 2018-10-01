@@ -106,10 +106,13 @@ def clean_line(line):
 
     """
 
-    line = re.sub(r'\n', ' ', line)
-    line = re.sub(r'\t', ' ', line)
-    line = re.sub(r'\s+', ' ', line)
-    return line.strip()
+    if isinstance(line, str):
+        line = re.sub(r'\n', ' ', line)
+        line = re.sub(r'\t', ' ', line)
+        line = re.sub(r'\s+', ' ', line)
+        return line.strip()
+
+    return line
 
 
 def computeMD5hash(string):
