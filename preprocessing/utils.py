@@ -108,6 +108,7 @@ def clean_line(line):
 
     if isinstance(line, str):
         line = re.sub(r'\n', ' ', line)
+        line = re.sub(r'\\n', ' ', line)        
         line = re.sub(r'\t', ' ', line)
         line = re.sub(r'\s+', ' ', line)
         return line.strip()
